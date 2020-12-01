@@ -1,4 +1,4 @@
-## Team Number 15 - \<I Voted>
+## Team Number 15 - I Voted
 
 
 
