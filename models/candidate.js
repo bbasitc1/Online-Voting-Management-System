@@ -9,6 +9,10 @@ const UserSchema = new mongoose.Schema({
     type:Number,
     required:true
   },
+  branch:{
+    type:String,
+    required: true
+  },
   voteCounts:{
       type: Number,
       default:0

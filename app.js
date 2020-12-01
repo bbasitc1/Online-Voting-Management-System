@@ -8,12 +8,11 @@ const voted = require('./models/voted')
 
 const app = express()
 
+
 connectDB()
 
 const nodemailer = require('nodemailer')
-const { stringify } = require('querystring')
 const { type } = require('os')
-const { json } = require('body-parser')
 app.engine('handlebars', exphbs())
 app.set('view engine', 'handlebars')
 
@@ -90,11 +89,36 @@ app.post('/validate', (req, res) => {
     userOtp = parseInt(userOtp)
     if(userOtp == otp){
       new voted({id}).save().then(console.log(`${id} saved in DB`))
-      res.render('candidates')
+      var output = ''
+      candidate.find({}).limit(6).then((result) => {
+        var i = 0
+        result.forEach((res) => {
+          output+=`<form class="col-md-12" method="POST" action="/done">
+                    <div class="profile-content" style = "width:100%">
+                       <div class="profile-name" style="font-size:30px">${res.name} 
+                       <p> B.Tech(${res.branch}) - Third Year </p>
+                      </div>
+                      <input type = text name = 'name' placeholder = 'Kindly Type the same name as mentioned above to confirm your vote' required style = "font-size: 18px; width:100%">
+                      <div class="row" style="padding: 2px;">
+                        <button type="submit" class="btn btn btn-outline-dark btn-lg btn-block" user = ${res.name}>Vote ${res.name}</button>
+                      </div>
+                    </div>
+                  </form>`
+        })
+      res.render('candidates', {msg:output})
+      })
     }
     else
       res.render('index', {msg: "Invalid otp"})
     
+})
+
+app.post('/done', (req, res) => {
+  const name = req.body.name
+  candidate.findOne({name:name}).then((user) => {
+    const votesNow = user.voteCounts
+    candidate.findOneAndUpdate({name:name}, {voteCounts:votesNow+1}).then((user) => res.render('index'))
+  })
 })
 
 
@@ -102,86 +126,48 @@ app.post('/validate', (req, res) => {
 app.post('/admin', (req, res) => {
   const email = req.body.email
   const password = req.body.password
-  candidate.findOne({}).limit(6).then((result) => {
-    result.forEach((res) => {  
-      
-    })
-  })
+  var output = `<div class="row">`
   if(email === 'admin@smit.smu.edu.in' && password === 'Admin.123')
   {
-    res.render('adminDashboard', {msg:(
-      `
-      <div class="row">
-      <div class="col-md-4">
-              <div class="profile-name" style="font-size: 30px;">Robert Downey Jr</div>
-              <div class="profile-username"> B.Tech(CSE) - Second Year </div>
-              <button type="button" class="btn btn-dark btn-lg btn-block">
-                  VOTE - 45 </button>
-            
-      </div>
-  
-      <div class="col-md-4">
-              <div class="profile-name" style="font-size: 30px;">Mr. Steve Rogers</div>
-              <div class="profile-username"> B.Tech(IT) - Third Year </div>
-              <button type="button" class="btn btn-dark btn-lg btn-block">
-                  VOTE - 105 </button>
-            
-      </div>
-      <div class="col-md-4">
-              <div class="profile-name" style="font-size: 30px;">Taylor Swift</div>
-              <div class="profile-username"> B.Tech(IT) - Forth Year </div>
-              <button type="button" class="btn btn-dark btn-lg btn-block">
-                  VOTE - 24 </button>
-             
-      </div>
-  </div>
-      `
-    )})
+    candidate.find({}).limit(6).then((result) => {
+      result.forEach((res) => {
+        output += `<div class="col-md-4">
+                      <div class="profile-name" style="font-size: 30px;">${res.name}</div>
+                      <div class="profile-username"> B.Tech(${res.branch}) - Third Year </div>
+                      <button type="button" class="btn btn-dark btn-lg btn-block">
+                      VOTES - ${res.voteCounts}</button>
+                  </div>
+                  `
+      })
+     res.render('adminDashboard', {msg:output})
+    })
   }
   else
   {
-    res.render('admin', {msg:"Invalid Credentials"})
+    res.render('admin', {msg: "Wrong Credentials"})
   }
 })
 
-var count = 0
-var i = 0;
-var candidates = []
+
 app.post('/add', (req, res) => {
   const name = req.body.name
   const regNo = req.body.regNo
-  new candidate({name, regNo}).save().then(console.log
-    (`${name} added as candidate`))
-
-  res.render('adminDashboard', {msg:
-  (
-    `
-    <div class="row">
-    
-    <div class="col-md-4">
-            <div class="profile-name" style="font-size: 30px;">Basit</div>
-            <div class="profile-username"> B.Tech(CSE) - Second Year </div>
-            <button type="button" class="btn btn-dark btn-lg btn-block">
-                VOTES - 45 </button>
-                
-    </div>
-
-    <div class="col-md-4">
-            <div class="profile-name" style="font-size: 30px;">Tushar</div>
-            <div class="profile-username"> B.Tech(IT) - Third Year </div>
-            <button type="button" class="btn btn-dark btn-lg btn-block">
-                VOTES - 105 </button>
-          
-    </div>
-    <div class="col-md-4">
-            <div class="profile-name" style="font-size: 30px;">Niluy</div>
-            <div class="profile-username"> B.Tech(IT) - Forth Year </div>
-            <button type="button" class="btn btn-dark btn-lg btn-block">
-                VOTES - 24 </button>
-           
-    </div>
-</div>`
-  )})
+  const branch = req.body.branch
+  new candidate({name, regNo, branch}).save().then(console.log(`${name} added as candidate`))
+  var output = `<div class="row">`
+  candidate.find({}).limit(6).then((result) => {
+    result.forEach((res) => {
+      output += `<div class="col-md-4">
+                    <div class="profile-name" style="font-size: 30px;">${res.name}</div>
+                    <div class="profile-username"> B.Tech(${res.branch}) - Third Year </div>
+                    <button type="button" class="btn btn-dark btn-lg btn-block">
+                    VOTES - ${res.voteCounts}</button>
+                </div>
+                `
+    })
+    output += `</div>`
+  res.render('adminDashboard', {msg:output})
+})
 })
 
 
@@ -190,3 +176,5 @@ app.post('/add', (req, res) => {
 
 const PORT = process.env.PORT || 3000 
 app.listen(PORT, console.log(`Server started on ${PORT}`))
+
+
