@@ -28,14 +28,14 @@ An overview of:
 * Instructions to run the code
     ### npm run start
 ### Screenshot
-![Add Candidates to fight for the election](screenshots/add Candidates.png)
+![Add Candidates to fight for the election](screenshots/add_Candidates.png)
 ![Wrong Credentials added by Admin to login](https://github.com/bbasitc1/hackathon/blob/main/screenshots/Admin%20Wrong.png)
 ![Admin Panel](screenshots/admin.png)
 ![Candidates to fight election](screenshots/Candidates.png)
-![Enter OTP here](screenshots/Enter OTP.png)
-![Invalid OTP](screenshots/Invalid OTP.png)
-![User Votes](screenshots/User Vote.png)
-![User already Voted](screenshots/Voted Candidates.png)
+![Enter OTP here](screenshots/Enter_Otp.png)
+![Invalid OTP](screenshots/InvalidOTP.png)
+![User Votes](screenshots/UserVote.png)
+![User already Voted](screenshots/VotedCandidates.png)
 ![Cast vote](screenshots/Votes.png)
 ![Welcome Page](screenshots/welcome.png)
 
