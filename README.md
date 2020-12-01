@@ -25,7 +25,7 @@ An overview of:
     ### npm i express mongoose body-parser express-handlebars nodemailer
     ### npm i -D nodemon (Dev Dependency)
 
-* Instructions to run the submitted code
+* Instructions to run the code
     ### npm run start
 ### Screenshot
 ![Add Candidates to fight for the election](screenshots/add Candidates.png)
