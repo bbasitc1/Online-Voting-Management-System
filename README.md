@@ -26,6 +26,7 @@ An overview of:
     ### npm i -D nodemon (Dev Dependency)
 
 * Instructions to run the code
+    ### Add start script in Package.json as "start": nodemon app.js 
     ### npm run start
 ### Screenshot
 ![Add Candidates to fight for the election](screenshots/add Candidates.png)
