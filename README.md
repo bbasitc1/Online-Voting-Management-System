@@ -42,7 +42,7 @@ List of team member names and email IDs with their contributions.
 |Member Name|Email|Contribution|
 |-----------|-----|------------|
 |Abdul Basit|basit.c1@gmail.com|Back-end|
-|Tushar Nayan|tusharnayan2610@gmail.com|Fornt-end|
+|Tushar Nayan|tusharnayan2610@gmail.com|Front-end|
 
 ### References
 [Stack Overflow](https://www.stackoverflow.com)
