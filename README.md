@@ -28,7 +28,7 @@ An overview of:
 * Instructions to run the submitted code
     ### npm run start
 ### Screenshots
-    ![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+    ![Image of Yaktocat](./screenshots/Candidates.png)
     ![Add Candidates to fight for the election](screenshots/add Candidates.png)
     ![Wrong Credentials added by Admin to login](https://github.com/bbasitc1/hackathon/blob/main/screenshots/Admin%20Wrong.png)
     ![Admin Panel](screenshots/admin.png)
