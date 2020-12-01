@@ -96,20 +96,27 @@ app.post('/validate', (req, res) => {
       res.render('index', {msg: "Invalid otp"})
     
 })
+
+
+
 app.post('/admin', (req, res) => {
   const email = req.body.email
   const password = req.body.password
+  candidate.findOne({}).limit(6).then((result) => {
+    result.forEach((res) => {  
+      
+    })
+  })
   if(email === 'admin@smit.smu.edu.in' && password === 'Admin.123')
   {
     res.render('adminDashboard', {msg:(
       `
       <div class="row">
-    
       <div class="col-md-4">
               <div class="profile-name" style="font-size: 30px;">Robert Downey Jr</div>
               <div class="profile-username"> B.Tech(CSE) - Second Year </div>
               <button type="button" class="btn btn-dark btn-lg btn-block">
-                  VOTE - 666 </button>
+                  VOTE - 45 </button>
             
       </div>
   
@@ -117,14 +124,14 @@ app.post('/admin', (req, res) => {
               <div class="profile-name" style="font-size: 30px;">Mr. Steve Rogers</div>
               <div class="profile-username"> B.Tech(IT) - Third Year </div>
               <button type="button" class="btn btn-dark btn-lg btn-block">
-                  VOTE - 399 </button>
+                  VOTE - 105 </button>
             
       </div>
       <div class="col-md-4">
               <div class="profile-name" style="font-size: 30px;">Taylor Swift</div>
               <div class="profile-username"> B.Tech(IT) - Forth Year </div>
               <button type="button" class="btn btn-dark btn-lg btn-block">
-                  VOTE - 505 </button>
+                  VOTE - 24 </button>
              
       </div>
   </div>
@@ -139,42 +146,46 @@ app.post('/admin', (req, res) => {
 
 var count = 0
 var i = 0;
+var candidates = []
 app.post('/add', (req, res) => {
   const name = req.body.name
   const regNo = req.body.regNo
   new candidate({name, regNo}).save().then(console.log
     (`${name} added as candidate`))
+
   res.render('adminDashboard', {msg:
   (
     `
     <div class="row">
     
     <div class="col-md-4">
-            <div class="profile-name" style="font-size: 30px;">Robert Downey Jr</div>
+            <div class="profile-name" style="font-size: 30px;">Basit</div>
             <div class="profile-username"> B.Tech(CSE) - Second Year </div>
             <button type="button" class="btn btn-dark btn-lg btn-block">
-                VOTE - 666 </button>
-          
+                VOTES - 45 </button>
+                
     </div>
 
     <div class="col-md-4">
-            <div class="profile-name" style="font-size: 30px;">Mr. Steve Rogers</div>
+            <div class="profile-name" style="font-size: 30px;">Tushar</div>
             <div class="profile-username"> B.Tech(IT) - Third Year </div>
             <button type="button" class="btn btn-dark btn-lg btn-block">
-                VOTE - 399 </button>
+                VOTES - 105 </button>
           
     </div>
     <div class="col-md-4">
-            <div class="profile-name" style="font-size: 30px;">Taylor Swift</div>
+            <div class="profile-name" style="font-size: 30px;">Niluy</div>
             <div class="profile-username"> B.Tech(IT) - Forth Year </div>
             <button type="button" class="btn btn-dark btn-lg btn-block">
-                VOTE - 505 </button>
+                VOTES - 24 </button>
            
     </div>
 </div>`
   )})
 })
-var candidates = ""
+
+
+
 
 
 const PORT = process.env.PORT || 3000 
