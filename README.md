@@ -27,10 +27,9 @@ An overview of:
 
 * Instructions to run the submitted code
     ### npm run start
-### Screenshots
-    ![Image of Yaktocat](./screenshots/Candidates.png)
-    ![Add Candidates to fight for the election](screenshots/add Candidates.png)
-    ![Wrong Credentials added by Admin to login](https://github.com/bbasitc1/hackathon/blob/main/screenshots/Admin%20Wrong.png)
+### Screenshot
+![Add Candidates to fight for the election](screenshots/add Candidates.png)
+![Wrong Credentials added by Admin to login](https://github.com/bbasitc1/hackathon/blob/main/screenshots/Admin%20Wrong.png)
     ![Admin Panel](screenshots/admin.png)
     ![Candidates to fight election](screenshots/Candidates.png)
     ![Enter OTP here](screenshots/Enter OTP.png)
