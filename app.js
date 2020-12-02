@@ -104,7 +104,7 @@ app.post('/validate', (req, res) => {
                        <div class="profile-name" style="font-size:15px">${res.regNo} 
                        <p> B.Tech(${res.branch}) - Third Year </p>
                       </div>
-                      <input type = text name = 'reg' placeholder = 'Kindly Type the same >registration No as mentioned above to confirm your vote' required style = "font-size: 18px; width:100%">
+                      <input type = text name = 'reg' placeholder = 'Kindly Type the same registration No as mentioned above to confirm your vote' required style = "font-size: 18px; width:100%">
                       <div class="row" style="padding: 2px;">
                         <button type="submit" class="btn btn btn-outline-dark btn-lg btn-block" user = ${res.name}>Vote ${res.name}</button>
                       </div>
@@ -143,6 +143,9 @@ app.post('/admin', (req, res) => {
                       <div class="profile-username" style = 'font-size:15px'> B.Tech(${res.regNo}) - Third Year </div>
                       <button type="button" class="btn btn-dark btn-lg btn-block">
                       VOTES - ${res.voteCounts}</button>
+                      <form method = "GET" action = "/${res.regNo}">
+                      <button type="submit" class="btn btn-dark btn-lg btn-block">Delete</button>
+                      </form>
                   </div>
                   `
       })
@@ -160,8 +163,9 @@ app.post('/add', (req, res) => {
   const name = req.body.name
   const regNo = req.body.regNo
   const branch = req.body.branch
-  new candidate({name, regNo, branch}).save().then(console.log(`${name} added as candidate`))
-  var output = `<div class="row">`
+  new candidate({name, regNo, branch}).save().then(() => {
+    console.log(`${name} added as candidate`)
+    var output = `<div class="row">`
   candidate.find({}).limit(7).then((result) => {
     result.forEach((res) => {
       output += `<div class="col-md-4">
@@ -169,15 +173,41 @@ app.post('/add', (req, res) => {
                     <div class="profile-username"> B.Tech(${res.branch}) - Third Year </div>
                     <button type="button" class="btn btn-dark btn-lg btn-block">
                     VOTES - ${res.voteCounts}</button>
+                    <form method = "GET" action = "/${res.regNo}">
+                      <button type="submit" class="btn btn-dark btn-lg btn-block">Delete</button>
+                      </form>
                 </div>
                 `
     })
     output += `</div>`
   res.render('adminDashboard', {msg:output})
+  })
+  
 })
 })
 
-
+app.get('/:id', (req, res) => {
+  const id = req.params.id
+  var output = `<div class="row">`
+  candidate.findOneAndDelete({regNo:id}).then((user) => {
+    candidate.find({}).limit(7).then((result) => {
+      result.forEach((res) => {
+        output += `<div class="col-md-4">
+                      <div class="profile-name" style="font-size: 30px;">${res.name}</div>
+                      <div class="profile-username"> B.Tech(${res.branch}) - Third Year </div>
+                      <div class="profile-username" style = 'font-size:15px'> B.Tech(${res.regNo}) - Third Year </div>
+                      <button type="button" class="btn btn-dark btn-lg btn-block">
+                      VOTES - ${res.voteCounts}</button>
+                      <form method = "GET" action = "/${res.regNo}">
+                      <button type="submit" class="btn btn-dark btn-lg btn-block">Delete</button>
+                      </form>
+                  </div>
+                  `
+      })
+     res.render('adminDashboard', {msg:output})
+    })
+  })
+})
 
 
 
