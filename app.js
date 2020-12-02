@@ -84,21 +84,27 @@ app.get('/admin', (req, res) => {
   res.render('admin')
 })
 
+app.get('/done', (req, res) => {
+
+})
+
+
 app.post('/validate', (req, res) => {
     var userOtp = req.body.otp
     userOtp = parseInt(userOtp)
     if(userOtp == otp){
       new voted({id}).save().then(console.log(`${id} saved in DB`))
       var output = ''
-      candidate.find({}).limit(6).then((result) => {
+      candidate.find({}).limit(7).then((result) => {
         var i = 0
         result.forEach((res) => {
           output+=`<form class="col-md-12" method="POST" action="/done">
                     <div class="profile-content" style = "width:100%">
                        <div class="profile-name" style="font-size:30px">${res.name} 
+                       <div class="profile-name" style="font-size:15px">${res.regNo} 
                        <p> B.Tech(${res.branch}) - Third Year </p>
                       </div>
-                      <input type = text name = 'name' placeholder = 'Kindly Type the same name as mentioned above to confirm your vote' required style = "font-size: 18px; width:100%">
+                      <input type = text name = 'reg' placeholder = 'Kindly Type the same >registration No as mentioned above to confirm your vote' required style = "font-size: 18px; width:100%">
                       <div class="row" style="padding: 2px;">
                         <button type="submit" class="btn btn btn-outline-dark btn-lg btn-block" user = ${res.name}>Vote ${res.name}</button>
                       </div>
@@ -114,10 +120,10 @@ app.post('/validate', (req, res) => {
 })
 
 app.post('/done', (req, res) => {
-  const name = req.body.name
-  candidate.findOne({name:name}).then((user) => {
+  const reg = req.body.reg
+  candidate.findOne({regNo:reg}).then((user) => {
     const votesNow = user.voteCounts
-    candidate.findOneAndUpdate({name:name}, {voteCounts:votesNow+1}).then((user) => res.render('index'))
+    candidate.findOneAndUpdate({regNo:reg}, {voteCounts:votesNow+1}).then((user) => res.render('index', {msg: "Your vote casted successfully"}))
   })
 })
 
@@ -129,11 +135,12 @@ app.post('/admin', (req, res) => {
   var output = `<div class="row">`
   if(email === 'admin@smit.smu.edu.in' && password === 'Admin.123')
   {
-    candidate.find({}).limit(6).then((result) => {
+    candidate.find({}).limit(7).then((result) => {
       result.forEach((res) => {
         output += `<div class="col-md-4">
                       <div class="profile-name" style="font-size: 30px;">${res.name}</div>
                       <div class="profile-username"> B.Tech(${res.branch}) - Third Year </div>
+                      <div class="profile-username" style = 'font-size:15px'> B.Tech(${res.regNo}) - Third Year </div>
                       <button type="button" class="btn btn-dark btn-lg btn-block">
                       VOTES - ${res.voteCounts}</button>
                   </div>
@@ -155,7 +162,7 @@ app.post('/add', (req, res) => {
   const branch = req.body.branch
   new candidate({name, regNo, branch}).save().then(console.log(`${name} added as candidate`))
   var output = `<div class="row">`
-  candidate.find({}).limit(6).then((result) => {
+  candidate.find({}).limit(7).then((result) => {
     result.forEach((res) => {
       output += `<div class="col-md-4">
                     <div class="profile-name" style="font-size: 30px;">${res.name}</div>
