@@ -1,7 +1,3 @@
-## Team Number 15 - I Voted
-
-
-
 ### Project Overview
 
 A brief description of 
