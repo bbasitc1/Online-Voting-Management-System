@@ -161,7 +161,8 @@ app.post('/admin', (req, res) => {
 
 app.post('/add', (req, res) => {
   const name = req.body.name
-  const regNo = req.body.regNo
+  const regNo = parseInt(req.body.regNo)
+  console.log(typeof(regNo));
   const branch = req.body.branch
   new candidate({name, regNo, branch}).save().then(() => {
     console.log(`${name} added as candidate`)
@@ -206,7 +207,7 @@ app.get('/:id', (req, res) => {
       })
      res.render('adminDashboard', {msg:output})
     })
-  })
+  }).then(console.log("Done"))
 })
 
 
